@@ -7,12 +7,23 @@ trapped () (
     trap - INT
     export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
     rm -r ./build/*
-    gradle4 build --stacktrace
-    gradle4 run --stacktrace
+    if ! command -v gradle4 &> /dev/null
+    then
+        gradle4 build --stacktrace
+        gradle4 run --stacktrace
+    else
+        gradle build --stacktrace
+        gradle run --stacktrace
+    fi
 )
 
 trapped
 pkill -f "java.*-Xms1103m.*gradle"
 pkill -f "java.*reactor_simulator"
-gradle4 --stop
+if ! command -v gradle4 &> /dev/null
+then
+    gradle4 --stop
+else
+    gradle --stop
+fi
 echo "Killed goofball gradle daemon"
