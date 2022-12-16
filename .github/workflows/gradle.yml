@@ -1,0 +1,20 @@
+name: Java CI with gradle and systemd
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - continue-on-error: true
+      run: sudo systemctl is-active reactor_simulator && sudo systemctl stop reactor_simulator
+    - name: I am a victim of circumstance, your honor
+      run: pkill -f "java.*-Xms2103m.*gradle"
+    - uses: actions/checkout@v3
+    - run: sudo systemctl start reactor_simulator

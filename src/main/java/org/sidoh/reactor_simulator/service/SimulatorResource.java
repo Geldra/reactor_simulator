@@ -4,7 +4,7 @@ import org.sidoh.reactor_simulator.simulator.BigReactorSimulator;
 import org.sidoh.reactor_simulator.simulator.FakeReactorWorld;
 import org.sidoh.reactor_simulator.simulator.ReactorDefinition;
 import org.sidoh.reactor_simulator.simulator.ReactorResult;
-import restx.annotations.GET;
+import restx.annotations.POST;
 import restx.annotations.RestxResource;
 import restx.factory.Component;
 import restx.security.PermitAll;
@@ -13,7 +13,7 @@ import restx.security.PermitAll;
 @RestxResource
 public class SimulatorResource {
   @PermitAll
-  @GET("/simulate")
+  @POST("/simulate") //now able to accommodate larger requests
   public ReactorResult simulate(ReactorDefinition definition) {
     SimulatorServer.validateReactorDefinition(definition);
 

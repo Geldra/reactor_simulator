@@ -3,8 +3,10 @@ logs/
 *.log
 *.iml
 *.sw*
+/.vscode
 /.gradle
 /build
 /run
 
 /out
+/bin

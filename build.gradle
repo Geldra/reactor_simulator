@@ -3,23 +3,18 @@ buildscript {
         mavenCentral()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = "https://maven.minecraftforge.net/"
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+            changing = true
+        }
     }
 }
 
 apply plugin: 'forge'
 apply plugin: 'application'
-
-ant.loadproperties(srcFile: "version.properties")
-version = ant.properties['vMajor'] + "." + ant.properties['vMinor'] + "." + ant.properties['vPatch'] + ant.properties['vSuffix']
 
 group = "org.sidoh" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "reactor_simulator"
@@ -34,26 +29,7 @@ minecraft {
     replace "@VERSION@", project.version
 }
 
-repositories {
-    maven {
-        name = "OpenComputers"
-        url = "http://maven.cil.li/"
-    }
-    maven {
-        name = "codechicken"
-        url = "http://chickenbones.net/maven"
-    }
-    ivy {
-        name "CoFHCore"
-        artifactPattern "http://addons-origin.cursecdn.com/files/2388/751/[module]-[revision].[ext]"
-    }
-}
-
 dependencies {
-    compile 'com.mod-buildcraft:buildcraft:6.0.18:dev'
-//    compile 'li.cil.oc:OpenComputers:MC1.7.10-1.4.0.+:api'
-
-    // :'(
     compile fileTree(dir: 'lib', include: ['*.jar'])
 
     compile 'org.slf4j:slf4j-api:1.7.9'
@@ -62,41 +38,4 @@ dependencies {
     compile 'io.restx:restx-core-annotation-processor:0.33.1'
     compile 'io.restx:restx-server-jetty:0.33.1'
     compile 'io.restx:restx-factory:0.33.1'
-}
-
-processResources
-{
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
-
-// NOTE: When using the addVersion task, it MUST be run in a separate gradle run
-// from build, or else the mod will have a mismatched version number.
-// This is because the minecraft project's replaceIn system runs at
-// configuration time, and you cannot specify which tasks run
-// during configuration time. This blows, but it works for now.
-
-task addVersion {
-    inputs.property "version", project.version
-    outputs.file "version.properties"
-}
-
-addVersion << {
-    ant.propertyfile(file: "version.properties") {
-        entry( key: "vPatch", type: int, value: 1, operation: "+" )
-    }
 }

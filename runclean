@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+#I just symlinked on my AMD system,
+# dir testing wouldn't work :)
+
+trap '' INT
+trapped () (
+    trap - INT
+    export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
+    rm -r ./build/*
+    gradle4 build --stacktrace
+    gradle4 run --stacktrace
+)
+
+trapped
+pkill -f "java.*-Xms1103m.*gradle"
+pkill -f "java.*reactor_simulator"
+gradle4 --stop
+echo "Killed goofball gradle daemon"
