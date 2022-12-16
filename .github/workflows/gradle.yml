@@ -18,5 +18,5 @@ jobs:
       continue-on-error: true
       run: pkill -f "java.*-Xms1103m.*gradle"
     - uses: actions/checkout@v3
-    - run: sudo systemctl start reactor_simulator
     - run: chmod +x runclean
+    - run: sudo systemctl start reactor_simulator
