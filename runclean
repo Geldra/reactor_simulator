@@ -9,11 +9,11 @@ trapped () (
     rm -r ./build/*
     if ! command -v gradle4 &> /dev/null
     then
-        gradle4 build --stacktrace
-        gradle4 run --stacktrace
-    else
         gradle build --stacktrace
         gradle run --stacktrace
+    else
+        gradle4 build --stacktrace
+        gradle4 run --stacktrace
     fi
 )
 
@@ -22,8 +22,8 @@ pkill -f "java.*-Xms1103m.*gradle"
 pkill -f "java.*reactor_simulator"
 if ! command -v gradle4 &> /dev/null
 then
-    gradle4 --stop
-else
     gradle --stop
+else
+    gradle4 --stop
 fi
 echo "Killed goofball gradle daemon"
