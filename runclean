@@ -1,29 +1,17 @@
 #!/usr/bin/env sh
-#I just symlinked on my AMD system,
-# dir testing wouldn't work :)
+# Multiplatform support? In this economy?
 
 trap '' INT
-trapped () (
+trapped() (
     trap - INT
     export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
     rm -r ./build/*
-    if ! command -v gradle4 &> /dev/null
-    then
-        /opt/gradle/gradle-4.10.3/bin/gradle build --stacktrace
-        /opt/gradle/gradle-4.10.3/bin/gradle run --stacktrace
-    else
-        gradle4 build --stacktrace
-        gradle4 run --stacktrace
-    fi
+    /opt/gradle/gradle-4.10.3/bin/gradle build --stacktrace
+    /opt/gradle/gradle-4.10.3/bin/gradle run --stacktrace
 )
 
 trapped
 pkill -f "java.*-Xms1103m.*gradle"
 pkill -f "java.*reactor_simulator"
-if ! command -v gradle4 &> /dev/null
-then
-    /opt/gradle/gradle-4.10.3/bin/gradle --stop
-else
-    gradle4 --stop
-fi
+/opt/gradle/gradle-4.10.3/bin/gradle --stop
 echo "Killed goofball gradle daemon"
