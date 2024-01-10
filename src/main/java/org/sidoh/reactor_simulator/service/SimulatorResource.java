@@ -15,6 +15,7 @@ public class SimulatorResource {
   @PermitAll
   @POST("/simulate") //now able to accommodate larger requests
   public ReactorResult simulate(ReactorDefinition definition) {
+    System.out.println("New request for " + definition);
     SimulatorServer.validateReactorDefinition(definition);
 
     BigReactorSimulator simulator = new BigReactorSimulator(

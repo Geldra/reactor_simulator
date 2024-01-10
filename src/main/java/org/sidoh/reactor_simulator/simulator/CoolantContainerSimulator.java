@@ -11,7 +11,7 @@ public class CoolantContainerSimulator extends CoolantContainer {
 
   @Override
   public Fluid getCoolantType() {
-    return new Fluid("water");
+    return new Fluid("minecraft:water");
   }
 
   @Override

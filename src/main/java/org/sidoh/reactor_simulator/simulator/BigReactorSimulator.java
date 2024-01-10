@@ -25,15 +25,6 @@ import static org.sidoh.reactor_simulator.simulator.monitors.TimeSeriesSimulatio
 public class BigReactorSimulator {
   private boolean activelyCooled;
 
-  private static final String OUR_10X10 =
-      "E E E E E E E E" +
-          "E E X E E X E E" +
-          "E X X X X X X E" +
-          "E E X D D X E E" +
-          "E E X D D X E E" +
-          "E X X X X X X E" +
-          "E E X E E X E E" +
-          "E E E E E E E E";
   // Number of negative deltas that should be seen before a simulation is considered stable.
   private static final double STABILITY_THRESHOLD = 200;
 
@@ -54,48 +45,80 @@ public class BigReactorSimulator {
   }
 
   public static void init() {
-    ReactorInterior.registerBlock("blockIron", 0.50f, 0.75f, 1.40f, IHeatEntity.conductivityIron);
-    ReactorInterior.registerBlock("blockGold", 0.52f, 0.80f, 1.45f, IHeatEntity.conductivityGold);
-    ReactorInterior.registerBlock("blockDiamond", 0.55f, 0.85f, 1.50f, IHeatEntity.conductivityDiamond);
-    ReactorInterior.registerBlock("blockEmerald", 0.55f, 0.85f, 1.50f, IHeatEntity.conductivityEmerald);
-    ReactorInterior.registerBlock("blockGraphite", 0.10f, 0.50f, 2.00f, IHeatEntity.conductivityGold); // Graphite: a great moderator!
-    ReactorInterior.registerBlock("blockGlassColorless", 0.20f, 0.25f, 1.10f, IHeatEntity.conductivityGlass);
-    ReactorInterior.registerBlock("blockIce", 0.33f, 0.33f, 1.15f, IHeatEntity.conductivityWater);
-    ReactorInterior.registerBlock("blockSnow", 0.15f, 0.33f, 1.05f, IHeatEntity.conductivityWater / 2f);
+    // Data from Extreme Reactors 2 for 1.20.1
+    // https://github.com/ZeroNoRyouki/ExtremeReactors2/blob/1.20/src/main/java/it/zerono/mods/extremereactors/gamecontent/ReactorGameData.java#L96
+    // was
+    // https://github.com/erogenousbeef-zz/BigReactors/blob/master/src/main/java/erogenousbeef/bigreactors/common/BigReactors.java#L824
+    
+    ReactorInterior.registerBlock("forge:storage_block/apatite", 0.48f, 0.73f, 1.30f, IHeatEntity.conductivityStone);
+    ReactorInterior.registerBlock("forge:storage_block/cinnabar", 0.48f, 0.75f, 1.32f, IHeatEntity.conductivityStone);
+    ReactorInterior.registerBlock("forge:storage_blocks/iron", 0.50f, 0.75f, 1.40f, IHeatEntity.conductivityIron);
+    ReactorInterior.registerBlock("forge:storage_blocks/manasteel", 0.60f, 0.75f, 1.50f, IHeatEntity.conductivityIron);
+    ReactorInterior.registerBlock("forge:storage_blocks/elementium", 0.61f, 0.77f, 1.52f, IHeatEntity.conductivityEmerald);
+    ReactorInterior.registerBlock("forge:storage_blocks/nickel", 0.51f, 0.77f, 1.40f, IHeatEntity.conductivityIron);
+    ReactorInterior.registerBlock("forge:storage_blocks/gold", 0.52f, 0.80f, 1.45f, IHeatEntity.conductivityGold);
+    ReactorInterior.registerBlock("forge:storage_blocks/diamond", 0.55f, 0.85f, 1.50f, IHeatEntity.conductivityDiamond);
+    ReactorInterior.registerBlock("forge:storage_blocks/netherite", 0.55f, 0.95f, 1.65f, IHeatEntity.conductivityDiamond);
+    ReactorInterior.registerBlock("forge:storage_blocks/terrasteel", 0.57f, 0.87f, 1.52f, IHeatEntity.conductivityDiamond);
+    ReactorInterior.registerBlock("forge:storage_blocks/emerald", 0.55f, 0.85f, 1.50f, IHeatEntity.conductivityEmerald);
+    ReactorInterior.registerBlock("forge:glass/colorless", 0.20f, 0.25f, 1.10f, IHeatEntity.conductivityGlass);
+    ReactorInterior.registerBlock("forge:storage_blocks/copper", 0.50f, 0.75f, 1.40f, IHeatEntity.conductivityCopper);
+    ReactorInterior.registerBlock("forge:storage_blocks/brass", 0.52f, 0.78f, 1.42f, IHeatEntity.conductivityCopper);
+    ReactorInterior.registerBlock("forge:storage_blocks/osmium", 0.51f, 0.77f, 1.41f, IHeatEntity.conductivityCopper);
+    ReactorInterior.registerBlock("forge:storage_blocks/refined_obsidian", 0.53f, 0.79f, 1.42f, IHeatEntity.conductivityCopper);
+    ReactorInterior.registerBlock("forge:storage_blocks/refined_glowstone", 0.54f, 0.79f, 1.44f, IHeatEntity.conductivityEmerald);
+    ReactorInterior.registerBlock("forge:storage_blocks/bronze", 0.51f, 0.77f, 1.41f, IHeatEntity.conductivityCopper);
+    ReactorInterior.registerBlock("forge:storage_blocks/zinc", 0.51f, 0.77f, 1.41f, IHeatEntity.conductivityCopper);
+    ReactorInterior.registerBlock("forge:storage_blocks/aluminum",0.50f, 0.78f, 1.42f, IHeatEntity.conductivityIron);
+    ReactorInterior.registerBlock("forge:storage_blocks/steel", 0.50f, 0.78f, 1.42f, IHeatEntity.conductivityIron);
+    ReactorInterior.registerBlock("forge:storage_blocks/invar", 0.50f, 0.79f, 1.43f, IHeatEntity.conductivityIron);
+    ReactorInterior.registerBlock("forge:storage_blocks/tin", 0.50f, 0.73f, 1.38f, IHeatEntity.conductivitySilver);
+    ReactorInterior.registerBlock("forge:storage_blocks/silver", 0.51f, 0.79f, 1.43f, IHeatEntity.conductivitySilver);
+    ReactorInterior.registerBlock("forge:storage_blocks/signalum", 0.51f, 0.75f, 1.42f, IHeatEntity.conductivityCopper);
+    ReactorInterior.registerBlock("forge:storage_blocks/lumium", 0.51f, 0.79f, 1.45f, IHeatEntity.conductivitySilver);
+    ReactorInterior.registerBlock("forge:storage_blocks/lead", 0.75f, 0.75f, 1.75f, IHeatEntity.conductivitySilver);
+    ReactorInterior.registerBlock("forge:storage_blocks/electrum", 0.53f, 0.82f, 1.47f, 2.2f); // Between gold and emerald
+    ReactorInterior.registerBlock("forge:storage_blocks/platinum", 0.57f, 0.86f, 1.58f, IHeatEntity.conductivityEmerald);
+    ReactorInterior.registerBlock("forge:storage_blocks/enderium", 0.60f, 0.88f, 1.60f, IHeatEntity.conductivityDiamond);
+    //blockTitanium
+    //blockDraconium
+    //blockDraconiumAwakened
+    ReactorInterior.registerBlock("forge:storage_blocks/graphite", 0.10f, 0.50f, 2.00f, IHeatEntity.conductivityGold);
+    ReactorInterior.registerBlock("minecraft:ice", 0.33f, 0.33f, 1.15f, IHeatEntity.conductivityWater);
+    ReactorInterior.registerBlock("bigreactors:dry_ice", 0.42f, 0.52f, 1.32f, IHeatEntity.conductivityWater);
 
-    // Mod blocks
-    ReactorInterior.registerBlock("blockCopper", 0.50f, 0.75f, 1.40f, IHeatEntity.conductivityCopper);
-    ReactorInterior.registerBlock("blockOsmium", 0.51f, 0.77f, 1.41f, IHeatEntity.conductivityCopper);
-    ReactorInterior.registerBlock("blockBrass", 0.51f, 0.77f, 1.41f, IHeatEntity.conductivityCopper);
-    ReactorInterior.registerBlock("blockBronze", 0.51f, 0.77f, 1.41f, IHeatEntity.conductivityCopper);
-    ReactorInterior.registerBlock("blockZinc", 0.51f, 0.77f, 1.41f, IHeatEntity.conductivityCopper);
-    ReactorInterior.registerBlock("blockAluminum", 0.50f, 0.78f, 1.42f, IHeatEntity.conductivityIron);
-    ReactorInterior.registerBlock("blockSteel", 0.50f, 0.78f, 1.42f, IHeatEntity.conductivityIron);
-    ReactorInterior.registerBlock("blockInvar", 0.50f, 0.79f, 1.43f, IHeatEntity.conductivityIron);
-    ReactorInterior.registerBlock("blockSilver", 0.51f, 0.79f, 1.43f, IHeatEntity.conductivitySilver);
-    ReactorInterior.registerBlock("blockLead", 0.75f, 0.75f, 1.75f, IHeatEntity.conductivitySilver);
-    ReactorInterior.registerBlock("blockElectrum", 0.53f, 0.82f, 1.47f, 2.2f); // Between gold and emerald
-    ReactorInterior.registerBlock("blockElectrumFlux", 0.54f, 0.83f, 1.48f, 2.4f); // Between gold and emerald
-    ReactorInterior.registerBlock("blockPlatinum", 0.57f, 0.86f, 1.58f, IHeatEntity.conductivityEmerald);
-    ReactorInterior.registerBlock("blockShiny", 0.57f, 0.86f, 1.58f, IHeatEntity.conductivityEmerald);
-    ReactorInterior.registerBlock("blockTitanium", 0.58f, 0.87f, 1.59f, 2.7f); // Mariculture
-    ReactorInterior.registerBlock("blockEnderium", 0.60f, 0.88f, 1.60f, IHeatEntity.conductivityDiamond);
+    // fluids
 
-    ReactorInterior.registerFluid("water", RadiationHelper.waterData.absorption, RadiationHelper.waterData.heatEfficiency, RadiationHelper.waterData.moderation, IHeatEntity.conductivityWater);
-    ReactorInterior.registerFluid("redstone", 0.75f, 0.55f, 1.60f, IHeatEntity.conductivityEmerald);
-    ReactorInterior.registerFluid("glowstone", 0.20f, 0.60f, 1.75f, IHeatEntity.conductivityCopper);
-    ReactorInterior.registerFluid("cryotheum", 0.66f, 0.95f, 6.00f, IHeatEntity.conductivityDiamond); // Cryotheum: an amazing moderator!
-    ReactorInterior.registerFluid("ender", 0.90f, 0.75f, 2.00f, IHeatEntity.conductivityGold);
-    ReactorInterior.registerFluid("pyrotheum", 0.66f, 0.90f, 1.00f, IHeatEntity.conductivityIron);
+    ReactorInterior.registerFluid("bigreactors:cryomisi", 0.75f, 0.55f, 1.60f, IHeatEntity.conductivityEmerald);
 
-    ReactorInterior.registerFluid("life essence", 0.70f, 0.55f, 1.75f, IHeatEntity.conductivityGold); // From Blood Magic
+    ReactorInterior.registerFluid("bigreactors:tangerium", 0.90f, 0.75f, 2.00f, IHeatEntity.conductivityGold);
 
+    ReactorInterior.registerFluid("bigreactors:redfrigium", 0.66f, 0.95f, 6.00f, IHeatEntity.conductivityDiamond);
+
+    ReactorInterior.registerFluid("minecraft:water", RadiationHelper.waterData.absorption, RadiationHelper.waterData.heatEfficiency, RadiationHelper.waterData.moderation, IHeatEntity.conductivityWater);
+
+    // Astral Sorcery
+    ReactorInterior.registerFluid("astralsorcery:liquid_starlight", 0.92f, 0.80f, 2.00f, IHeatEntity.conductivityDiamond);
+
+    // Blood Magic
+    ReactorInterior.registerFluid("bloodmagic:life_essence_fluid", 0.80f, 0.55f, 1.75f, IHeatEntity.conductivityEmerald);
+
+    // Mekanism
+    ReactorInterior.registerFluid("mekanism:hydrofluoric_acid", 0.68f, 0.45f, 1.40f, IHeatEntity.conductivityEmerald);
+    ReactorInterior.registerFluid("mekanism:sodium", 0.28f, 0.60f, 1.70f, IHeatEntity.conductivityCopper);
+    ReactorInterior.registerFluid("mekanism:hydrogen_chloride", 0.38f, 0.65f, 1.70f, IHeatEntity.conductivityCopper);
+    ReactorInterior.registerFluid("mekanism:ethene", 0.45f, 0.65f, 1.90f, IHeatEntity.conductivitySilver); // Etilene
+
+    // Thermal
+    ReactorInterior.registerFluid("thermal:ender", 0.92f, 0.76f, 2.02f, IHeatEntity.conductivityGold); // Resonant Ender
+    ReactorInterior.registerFluid("thermal:redstone", 0.77f, 0.56f, 1.61f, IHeatEntity.conductivityEmerald); // Destabilized Redstone
     StandardReactants.register();
 
     // Register reactant => reactant conversions for making cyanite
     ReactorConversions.register(StandardReactants.yellorium, StandardReactants.cyanite);
     ReactorConversions.register(StandardReactants.blutonium, StandardReactants.cyanite);
 
+    // Turbine stuff, NYI
     TurbineCoil.registerBlock("blockIron", 1f, 1f, 1f);
     TurbineCoil.registerBlock("blockGold", 2f, 1f, 1.75f);
 
@@ -158,6 +181,7 @@ public class BigReactorSimulator {
       simulator.updateServer();
 
       final double energyValue = simulator.getEnergyGeneratedLastTick();
+      System.out.println(energyValue);
       final double energyDelta  = (energyValue - lastValue);
 
       if (energyDelta < 0) {
@@ -182,7 +206,7 @@ public class BigReactorSimulator {
     return result;
   }
 
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
     BigReactorSimulator.init();
     String reactor = "OOOOOOOOOORROOOOOOOOOOOOOOOOOOOXXXOOOOOOOOGGXCXGGOOOOOOGGXXXGGOOOOOXXXCXCXXXOOOOXCXXXXXCXOOOOXXXCXCXXXOOOOOGGXXXGGOOOOOOGGXCXGGOOOOOOOOXXXOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO";
     final ReactorDefinition definition = new ReactorDefinition(15, 15, 7, reactor, false, (short)0);
@@ -191,5 +215,5 @@ public class BigReactorSimulator {
         ResultMetrics.efficiency(),
         new BigReactorSimulator(false, 10000)
     ).optimizeInsertion(definition));
-  }
+  }*/
 }

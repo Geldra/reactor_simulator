@@ -120,6 +120,9 @@ public class RadiationHelperSimulator {
   }
 
   private void performIrradiation(IFakeReactorWorld world, MultiblockReactorSimulator simulator, RadiationData data, RadiationPacket radiation, int x, int y, int z) {
+    // This is all very messy and evil! I assume it's for some sort of evaporation thing that was never implemented
+    // I would implement the Extreme Reactors 2 refactoring of this code, but I don't want to deal with modules right now
+    // I am REASONABLY confident that it is equivalent for all purposes
     TileEntity te = world.getTileEntity(x, y, z);
     if (x < 0 || y < 0 || z < 0 || x > world.getMaxCoord().x || y > world.getMaxCoord().y || z > world.getMaxCoord().z) {
       return;
@@ -131,14 +134,7 @@ public class RadiationHelperSimulator {
     } else {
       String block = world.getBlockName(x, y, z);
       if (block != null) {
-        String[] parts = block.split(":");
-
-        if (parts[0].equals("fluid")) {
-          moderateByFluid(data, radiation, parts[1]);
-        } else {
-          // Go by block
-          moderateByBlock(data, radiation, parts[1]);
-        }
+          moderateByBlock(data, radiation, block);
       } else {
         // Weird-ass problem. Assume it's air.
         moderateByAir(data, radiation);

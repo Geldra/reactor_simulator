@@ -33,7 +33,6 @@ import erogenousbeef.core.multiblock.MultiblockValidationException;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -56,7 +55,6 @@ public class MultiblockReactorSimulator implements IEnergyHandler, IReactorFuelI
   protected boolean active;
   private float reactorHeat;
   private float fuelHeat;
-  private WasteEjectionSetting wasteEjection;
   private float energyStored;
   protected FuelContainer fuelContainer;
   protected RadiationHelperSimulator radiationHelper;
@@ -111,7 +109,6 @@ public class MultiblockReactorSimulator implements IEnergyHandler, IReactorFuelI
     reactorHeat = 0f;
     fuelHeat = 0f;
     energyStored = 0f;
-    wasteEjection = WasteEjectionSetting.kAutomatic;
 
     // Derived stats
     fuelToReactorHeatTransferCoefficient = 0f;
@@ -263,7 +260,6 @@ public class MultiblockReactorSimulator implements IEnergyHandler, IReactorFuelI
     energyGeneratedLastTick = 0f;
     fuelConsumedLastTick = 0f;
 
-    float newHeat = 0f;
 
     // Select a control rod to radiate from. Reset the iterator and select a new Y-level if needed.
     if (!currentFuelRod.hasNext()) {
@@ -508,9 +504,6 @@ public class MultiblockReactorSimulator implements IEnergyHandler, IReactorFuelI
     }
 
     Block block = world.getBlock(x, y, z);
-    if (block == Blocks.iron_block || block == Blocks.gold_block || block == Blocks.diamond_block || block == Blocks.emerald_block) {
-      return;
-    }
 
     // Permit registered moderator blocks
     int metadata = world.getBlockMetadata(x, y, z);
