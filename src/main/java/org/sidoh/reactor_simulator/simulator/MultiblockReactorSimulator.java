@@ -251,6 +251,7 @@ public class MultiblockReactorSimulator implements IEnergyHandler, IReactorFuelI
 
   // Update loop. Only called when the machine is assembled.
   public boolean updateServer() {
+    // ER2: https://github.com/ZeroNoRyouki/ExtremeReactors2/blob/1.20/src/main/java/it/zerono/mods/extremereactors/gamecontent/multiblock/reactor/ReactorLogic.java#L56
     if (Float.isNaN(this.getReactorHeat())) {
       this.setReactorHeat(0.0f);
     }
@@ -260,12 +261,18 @@ public class MultiblockReactorSimulator implements IEnergyHandler, IReactorFuelI
     energyGeneratedLastTick = 0f;
     fuelConsumedLastTick = 0f;
 
+    //////////////////////////////////////////////////////////////////////////////
+    // IRRADIATION
+    //////////////////////////////////////////////////////////////////////////////
+    // ER2: https://github.com/ZeroNoRyouki/ExtremeReactors2/blob/1.20/src/main/java/it/zerono/mods/extremereactors/gamecontent/multiblock/reactor/ReactorLogic.java#L79
 
+    // ER2: https://github.com/ZeroNoRyouki/ExtremeReactors2/blob/1.20/src/main/java/it/zerono/mods/extremereactors/gamecontent/multiblock/reactor/ReactorLogic.java#L215
     // Select a control rod to radiate from. Reset the iterator and select a new Y-level if needed.
     if (!currentFuelRod.hasNext()) {
       currentFuelRod = attachedFuelRods.iterator();
     }
 
+    // ER2: https://github.com/ZeroNoRyouki/ExtremeReactors2/blob/1.20/src/main/java/it/zerono/mods/extremereactors/gamecontent/multiblock/reactor/ReactorLogic.java#L232
     // Radiate from that control rod
     TileEntityReactorFuelRodSimulator source = currentFuelRod.next();
     TileEntityReactorControlRod sourceControlRod = (TileEntityReactorControlRod)worldObj.getTileEntity(source.xCoord, maxCoord.y, source.zCoord);
@@ -372,8 +379,6 @@ public class MultiblockReactorSimulator implements IEnergyHandler, IReactorFuelI
     if (ticksSinceLastUpdate >= ticksBetweenUpdates) {
       ticksSinceLastUpdate = 0;
     }
-
-    // TODO: Overload/overheat
 
     // Update any connected tickables
     for (ITickableMultiblockPart tickable : attachedTickables) {

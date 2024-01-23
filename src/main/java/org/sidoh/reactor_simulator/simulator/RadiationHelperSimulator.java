@@ -34,6 +34,8 @@ public class RadiationHelperSimulator {
     fertility = 1f;
   }
 
+  // ER2: https://github.com/ZeroNoRyouki/ExtremeReactors2/blob/1.20/src/main/java/it/zerono/mods/extremereactors/gamecontent/multiblock/reactor/ReactorLogic.java#L337
+  // BR: https://github.com/erogenousbeef-zz/BigReactors/blob/master/src/main/java/erogenousbeef/bigreactors/common/multiblock/helpers/RadiationHelper.java#L45
   public RadiationData radiate(IFakeReactorWorld world, FuelContainer fuelContainer, TileEntityReactorFuelRodSimulator source, TileEntityReactorControlRod controlRod, float fuelHeat, float environmentHeat, int numControlRods, MultiblockReactorSimulator simulator) {
     // No fuel? No radiation!
     if (fuelContainer.getFuelAmount() <= 0) {
@@ -94,6 +96,7 @@ public class RadiationHelperSimulator {
       while (ttl > 0 && radPacket.intensity > 0.0001f) {
         ttl--;
         currentCoord.translate(dir);
+        // ER2: https://github.com/ZeroNoRyouki/ExtremeReactors2/blob/1.20/src/main/java/it/zerono/mods/extremereactors/gamecontent/multiblock/reactor/part/ReactorFuelRodEntity.java#L172
         performIrradiation(world, simulator,data, radPacket, currentCoord.x, currentCoord.y, currentCoord.z);
       }
     }
@@ -103,6 +106,7 @@ public class RadiationHelperSimulator {
     data.fuelAbsorbedRadiation = 0f;
 
     // Inform fuelContainer
+    // ER2: https://github.com/ZeroNoRyouki/ExtremeReactors2/blob/1.20/src/main/java/it/zerono/mods/extremereactors/gamecontent/multiblock/reactor/FuelContainer.java#L141
     fuelContainer.onRadiationUsesFuel(rawFuelUsage);
     data.fuelUsage = rawFuelUsage;
 

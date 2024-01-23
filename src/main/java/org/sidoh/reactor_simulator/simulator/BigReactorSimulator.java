@@ -177,11 +177,12 @@ public class BigReactorSimulator {
     double lastValue = 0;
     int numNegativeDeltas = 0;
 
+    System.out.println("Energy generated, Fuel Consumed, Fuel Richness, Fuel Fertility, Fuel Heat, Reactor Heat");
     for (int i = 0; i < this.ticks; i++) {
       simulator.updateServer();
+      System.out.println(String.join(", ",Float.toString(simulator.getEnergyGeneratedLastTick()), Float.toString(simulator.getFuelConsumedLastTick()), Float.toString(simulator.getFuelRichness()), Float.toString(simulator.getFuelFertility()), Float.toString(simulator.getFuelHeat()), Float.toString(simulator.getReactorHeat())));
 
       final double energyValue = simulator.getEnergyGeneratedLastTick();
-      System.out.println(energyValue);
       final double energyDelta  = (energyValue - lastValue);
 
       if (energyDelta < 0) {
