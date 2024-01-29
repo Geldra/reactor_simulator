@@ -8,43 +8,18 @@
         "type": "tabs",
         "children": [
           {
-            "id": "724d625930be46ab",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Simulator V1.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "48812a4da728c3f6",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ExtremeReactors2.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "197a6b3ac955d517",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
                 "file": "Simulator V1.md",
                 "mode": "source",
-                "source": false
+                "source": true
               }
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -171,11 +146,48 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "197a6b3ac955d517",
+  "floating": {
+    "id": "94e562eee74903b4",
+    "type": "floating",
+    "children": [
+      {
+        "id": "87f21bb663b5b9ca",
+        "type": "window",
+        "children": [
+          {
+            "id": "1c1f515e7994cb88",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "693ec976a6977dda",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "Simulator V1.md",
+                    "mode": "preview",
+                    "source": false
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "vertical",
+        "x": 4103,
+        "y": 1743,
+        "width": 788,
+        "height": 1040,
+        "maximize": true,
+        "zoom": 0
+      }
+    ]
+  },
+  "active": "48812a4da728c3f6",
   "lastOpenFiles": [
-    "BigReactors.md",
     "ExtremeReactors2.md",
     "Simulator V1.md",
+    "BigReactors.md",
     "Untitled"
   ]
 }
