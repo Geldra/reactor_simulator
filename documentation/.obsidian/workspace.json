@@ -174,10 +174,10 @@
           }
         ],
         "direction": "vertical",
-        "x": 4103,
-        "y": 1743,
-        "width": 788,
-        "height": 1040,
+        "x": 3000,
+        "y": 1667,
+        "width": 1920,
+        "height": 1080,
         "maximize": true,
         "zoom": 0
       }
@@ -186,8 +186,8 @@
   "active": "48812a4da728c3f6",
   "lastOpenFiles": [
     "ExtremeReactors2.md",
-    "Simulator V1.md",
     "BigReactors.md",
+    "Simulator V1.md",
     "Untitled"
   ]
 }
