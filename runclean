@@ -11,7 +11,7 @@ trapped() (
 )
 
 trapped
-pkill -f "java.*-Xms1103m.*gradle"
+pkill -f "java.*-Xms20000m.*gradle"
 pkill -f "java.*reactor_simulator"
 /opt/gradle/gradle-4.10.3/bin/gradle --stop
 echo "Killed goofball gradle daemon"
