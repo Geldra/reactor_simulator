@@ -45,7 +45,7 @@ public class SimulatorResource {
 
     //System.out.println("5 Simulation complete" + " (+" + (System.currentTimeMillis() - startTime) + "ms)");
     //startTime = System.currentTimeMillis();
-    System.out.println(Runtime.getRuntime().availableProcessors() + " threads are available to Jetty");
+    //System.out.println(Runtime.getRuntime().availableProcessors() + " threads are available to Jetty");
 
     return new ReactorResult()
         .setCoolantTemperature(rawResult.coolantTemperature)
