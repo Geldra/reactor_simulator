@@ -13,10 +13,14 @@ jobs:
 
     steps:
     - continue-on-error: true
+      run: sudo systemctl is-active bigreactorsoptimizer && sudo systemctl stop bigreactorsoptimizer
+    - continue-on-error: true
       run: sudo systemctl is-active reactor_simulator && sudo systemctl stop reactor_simulator
     - name: I am a victim of circumstance, your honor
       continue-on-error: true
-      run: pkill -f "java.*-Xms1103m.*gradle"
+      run: pkill -f "java.*-Xms20000m.*gradle"
     - uses: actions/checkout@v3
     - run: chmod +x runclean
     - run: sudo systemctl start reactor_simulator
+    - run: sleep 5
+    - run: sudo systemctl start bigreactorsoptimizer

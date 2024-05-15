@@ -15,13 +15,21 @@ public class SimulatorResource {
   @PermitAll
   @POST("/simulate") //now able to accommodate larger requests
   public ReactorResult simulate(ReactorDefinition definition) {
-    System.out.println("New request for " + definition);
+    long startTime = System.currentTimeMillis();
+    System.out.println("1 New request for " + definition + " (+" + (System.currentTimeMillis() - startTime) + "ms)");
+    startTime = System.currentTimeMillis();
     SimulatorServer.validateReactorDefinition(definition);
+    System.out.println("2 Definition validated" + " (+" + (System.currentTimeMillis() - startTime) + "ms)");
+    startTime = System.currentTimeMillis();
 
     BigReactorSimulator simulator = new BigReactorSimulator(
         definition.isActivelyCooled(),
         SimulatorServer.MAX_NUMBER_OF_TICKS
     );
+
+    System.out.println("3 New BR sim spun up" + " (+" + (System.currentTimeMillis() - startTime) + "ms)");
+    startTime = System.currentTimeMillis();
+
     FakeReactorWorld fakeReactorWorld = FakeReactorWorld.makeReactor(
         definition.getLayout(),
         definition.getxSize(),
@@ -29,7 +37,14 @@ public class SimulatorResource {
         definition.getHeight(),
         definition.getControlRodInsertion()
     );
+
+    System.out.println("4 Fake reactor defined" + " (+" + (System.currentTimeMillis() - startTime) + "ms)");
+    startTime = System.currentTimeMillis();
+
     ReactorResult rawResult = simulator.simulate(fakeReactorWorld);
+
+    System.out.println("5 Simulation complete" + " (+" + (System.currentTimeMillis() - startTime) + "ms)");
+    startTime = System.currentTimeMillis();
 
     return new ReactorResult()
         .setCoolantTemperature(rawResult.coolantTemperature)
